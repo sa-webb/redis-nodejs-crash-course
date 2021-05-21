@@ -1,4 +1,4 @@
-# Redis / Node.js Crrash Course
+# Redis / Node.js Crash Course
 
 This is the source code repository for the Node.js Redis Crash Course.  It's designed to be used with the workbooks and videos that make up the course.
 
@@ -274,3 +274,13 @@ You should see the summary information for location 200, Katia's Kitchen:
 ```
  
 Great! Now you're up and running. 
+
+## Redis Search Commands
+
+**Returns all locations with gym as category**
+
+SEARCH on `ncc:locationsidx` `"@category:{gym}"`
+
+Returns all locations with category of gym with 3 or more higher stars (ratings)
+SEARCH on `ncc:locationsidx` `"@category:{gym}" @averageStars:[3 +inf]"`
+
