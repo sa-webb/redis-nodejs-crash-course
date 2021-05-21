@@ -57,6 +57,8 @@ const runCheckinProcessor = async () => {
       let pipeline = redisClient.pipeline();
 
       pipeline.hset(userKey, 'lastCheckin', checkin.timestamp, 'lastSeenAt', checkin.locationId);
+
+      // increments or decrements a field on a hash
       pipeline.hincrby(userKey, 'numCheckins', 1);
       pipeline.hincrby(locationKey, 'numCheckins', 1);
       pipeline.hincrby(locationKey, 'numStars', checkin.starRating);

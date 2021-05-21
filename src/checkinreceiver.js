@@ -1,3 +1,4 @@
+// Not a server, just a Node script that basically runs forever.
 const config = require('better-config');
 const express = require('express');
 const { body } = require('express-validator');
@@ -73,6 +74,7 @@ app.post(
     const pipeline = redisClient.pipeline();
 
     pipeline.call('BF.ADD', bloomFilterKey, checkinStr);
+    // ~ is a simple delimeter that translates to =, * allows Redis to timestamp by default
     pipeline.xadd(
       checkinStreamKey, 'MAXLEN', '~', maxStreamLength, '*', ...Object.entries(checkin).flat(),
       (err, result) => {
