@@ -120,14 +120,11 @@ router.get(
     const { locationId } = req.params;
     /* eslint-enable */
 
-    // Replace 'TODO... YOUR QUERY HERE' with a query that will find all
-    // users whose lastSeenAt field is set to the value stored in locationId.
-    // lastSeenAt was indexed as a numeric type, so you'll need to use the
     // "numeric range" syntax for this -- see documentation for help:
     // https://oss.redislabs.com/redisearch/Query_Syntax/
     const searchResults = await redis.performSearch(
       redis.getKeyName('usersidx'),
-      'TODO... YOUR QUERY HERE',
+      `@lastSeenAt:[${locationId} ${locationId}]`,
     );
     res.status(200).json(removeSensitiveFields(searchResults, 'email', ...SENSITIVE_FIELD_NAMES));
   },
