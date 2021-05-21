@@ -144,9 +144,13 @@ const createIndexes = async () => {
   const locationsIndexKey = redis.getKeyName('locationsidx');
 
   const pipeline = redisClient.pipeline();
+
+  // DROP EXISTING INDEXES
   pipeline.call('FT.DROPINDEX', usersIndexKey);
   pipeline.call('FT.DROPINDEX', locationsIndexKey);
+  // CREATE NEW INDEX ON USERS
   pipeline.call('FT.CREATE', usersIndexKey, 'ON', 'HASH', 'PREFIX', '1', redis.getKeyName('users'), 'SCHEMA', 'email', 'TAG', 'numCheckins', 'NUMERIC', 'SORTABLE', 'lastSeenAt', 'NUMERIC', 'SORTABLE', 'lastCheckin', 'NUMERIC', 'SORTABLE', 'firstName', 'TEXT', 'lastName', 'TEXT');
+  // CREATE INDEX ON LOCATIONS
   pipeline.call('FT.CREATE', locationsIndexKey, 'ON', 'HASH', 'PREFIX', '1', redis.getKeyName('locations'), 'SCHEMA', 'category', 'TAG', 'SORTABLE', 'location', 'GEO', 'SORTABLE', 'numCheckins', 'NUMERIC', 'SORTABLE', 'numStars', 'NUMERIC', 'SORTABLE', 'averageStars', 'NUMERIC', 'SORTABLE');
 
   const responses = await pipeline.exec();
