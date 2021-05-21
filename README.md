@@ -284,3 +284,6 @@ SEARCH on `ncc:locationsidx` `"@category:{gym}"`
 Returns all locations with category of gym with 3 or more higher stars (ratings)
 SEARCH on `ncc:locationsidx` `"@category:{gym}" @averageStars:[3 +inf]"`
 
+## Redis Streams are Ascending
+
+Timestamp by default 
